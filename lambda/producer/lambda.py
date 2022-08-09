@@ -1,7 +1,5 @@
-from curses.ascii import TAB
 import json
 import decimal
-from re import L
 import uuid
 import os
 import boto3
