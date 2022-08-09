@@ -25,8 +25,7 @@ class DecimalEncoder(json.JSONEncoder):
 dynamodb = boto3.resource('dynamodb')
 
 # Set environment variable
-TABLE_NAME = os.environ.get('TABLE_NAME')
-
+TABLE_NAME = os.environ['TABLE_NAME']
 
 def handler(event, context):
     logger.info('incoming event: {}'.format(event))
