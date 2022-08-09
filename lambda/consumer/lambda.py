@@ -1,16 +1,8 @@
-from __future__ import print_function
-from curses.ascii import TAB
-
 import json
 import decimal
-from msilib import Table
-from multiprocessing.connection import Client
 import os
 import boto3
 from botocore.exceptions import ClientError
-
-from lambda .producer.lambda import TABLE_NAME
-
 
 # Helper class to convert a DynamoDB item to JSON.
 class DecimalEncoder(json.JSONEncoder):
