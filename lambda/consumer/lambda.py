@@ -2,7 +2,13 @@ import json
 import decimal
 import os
 import boto3
+import logging
 from botocore.exceptions import ClientError
+
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 
 # Helper class to convert a DynamoDB item to JSON.
 class DecimalEncoder(json.JSONEncoder):
@@ -23,18 +29,20 @@ TABLE_NAME = os.environ('TABLE_NAME')
 
 
 def handler(event, context):
-  table = dynamodb.Table(TABLE_NAME)
-  # Scan items in table
-  try:
-    response = table.scan()
-  except ClientError as e:
-    print(e.response['Error']['Message'])
-  else:
-    # print item of the table 
-    for i in response['Items']:
-      print(json.dumps(i, cls=DecimalEncoder))
-  
-  return {
-    'statusCode': 200,
-    'body': 'success'
-  }
+    logger.info('incoming event: {}'.format(event))
+
+    table = dynamodb.Table(TABLE_NAME)
+    # Scan items in table
+    try:
+        response = table.scan()
+    except ClientError as e:
+        logger.info(e.response['Error']['Message'])
+    else:
+        # print item of the table
+        for i in response['Items']:
+            logger.info(json.dumps(i, cls=DecimalEncoder))
+
+    return {
+        'statusCode': 200,
+        'body': 'success'
+    }

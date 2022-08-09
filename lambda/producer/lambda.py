@@ -1,9 +1,15 @@
 from curses.ascii import TAB
 import json
 import decimal
+from re import L
 import uuid
 import os
 import boto3
+import logging
+
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 # Helper class to convert a DynamoDB item to JSON.
@@ -25,6 +31,8 @@ TABLE_NAME = os.environ('TABLE_NAME')
 
 
 def handler(event, context):
+  logger.info('Incoming event: {}'.format(event))
+
   table = dynamodb.Table(TABLE_NAME)
   # put item in table
   response = table.put_item(
@@ -33,8 +41,8 @@ def handler(event, context):
     }
   )
 
-  print('Successfully put item')
-  print(json.dumps(response, indent=4, cls=DecimalEncoder))
+  logger.info('Successfully put item')
+  logger.info(json.dumps(response, indent=4, cls=DecimalEncoder))
 
   return {
     'statusCode': 200,
