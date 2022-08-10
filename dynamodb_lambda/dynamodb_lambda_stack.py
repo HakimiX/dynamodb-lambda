@@ -1,5 +1,5 @@
-from math import prod
 from aws_cdk import (
+    RemovalPolicy,
     aws_dynamodb as dynamodb,
     aws_lambda as _lambda,
     aws_events as events,
@@ -17,6 +17,7 @@ class DynamodbLambdaStack(Stack):
         # DynamoDB table 
         demo_table = dynamodb.Table(
             self, 'demo_table',
+            removal_policy=RemovalPolicy.DESTROY,
             partition_key=dynamodb.Attribute(
                 name="id",
                 type=dynamodb.AttributeType.STRING
